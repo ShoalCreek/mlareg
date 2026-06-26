@@ -1,0 +1,32 @@
+generator client {
+  provider        = "prisma-client-js"
+  output          = "../src/generated/prisma"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Registration {
+  id                  String   @id @default(cuid())
+  passportName        String
+  email               String
+  whatsappNumber      String
+  gender              String
+  dateOfBirth         String
+  nationality         String
+  country             String
+  organization        String
+  roommatePreference  String?
+  passportPhotoPath   String?
+  flightArrival       String?
+  flightDeparture     String?
+  paymentStatus       String   @default("pending")
+  stripeSessionId     String?
+  confirmationSent    Boolean  @default(false)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+}
