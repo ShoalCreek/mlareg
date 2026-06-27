@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase'
+import { getSupabase } from '@/lib/supabase'
 import { v4 as uuidv4 } from 'uuid'
 
 export async function POST(request: NextRequest) {
@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
 
     const buffer = Buffer.from(await file.arrayBuffer())
 
-    const { error } = await supabase.storage
+    const { error } = await getSupabase().storage
       .from('passports')
       .upload(fileName, buffer, { contentType: file.type })
 
@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Upload failed' }, { status: 500 })
     }
 
-    const { data: urlData } = supabase.storage
+    const { data: urlData } = getSupabase().storage
       .from('passports')
       .getPublicUrl(fileName)
 
